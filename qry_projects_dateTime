@@ -1,4 +1,4 @@
-#Filter Drittmittelprojekte nach Start- und Endjahr
+# Drittmittelprojekte FILTER nach Start- und Endjahr
 
 SELECT DISTINCT ?label ?startjahr ?endjahr
 WHERE { ?project a kdsf:Drittmittelprojekt .
@@ -11,7 +11,7 @@ WHERE { ?project a kdsf:Drittmittelprojekt .
   			#FILTER (str(?startjahr) >= "2016")
   			FILTER (str(?endjahr) <= "2016")
 		}
-#Alle Projekte, die Enddatum optional haben
+# Alle Projekte, die Enddatum OPTIONAL haben
 
     SELECT DISTINCT ?label ?startjahr ?endjahr
     WHERE { ?project a kdsf:Drittmittelprojekt .
@@ -23,7 +23,7 @@ WHERE { ?project a kdsf:Drittmittelprojekt .
        			?ende vivo:dateTime ?endjahr }
     		}
 
-#Alle laufenden Projekte SPARQL- NOT EXISTS / Ohne End-Datum
+# Alle laufenden Projekte  NOT EXISTS / Ohne End-Datum
 
 SELECT DISTINCT ?label
 WHERE { ?project a kdsf:Drittmittelprojekt .
@@ -32,3 +32,7 @@ WHERE { ?project a kdsf:Drittmittelprojekt .
  		  	?laufzeit vivo:end ?ende .
    			NOT EXISTS { ?ende vivo:dateTime ?endjahr }
 		}
+
+# ASK ob individual eine Denomination hat false/true
+    ASK WHERE {<https://fis.uos.de/vivouos/individual/MeSu027> uoscore:Denomination ?any}
+    ASK WHERE {<https://fis.uos.de/vivouos/individual/KhSh415> uoscore:Denomination ?any}
