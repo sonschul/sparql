@@ -11,7 +11,7 @@ WHERE { ?project a kdsf:Drittmittelprojekt .
   			#FILTER (str(?startjahr) >= "2016")
   			FILTER (str(?endjahr) <= "2016")
 		}
-#Alle Projekte, die Enddatum optonal haben
+#Alle Projekte, die Enddatum optional haben
 
     SELECT DISTINCT ?label ?startjahr ?endjahr
     WHERE { ?project a kdsf:Drittmittelprojekt .
@@ -22,3 +22,13 @@ WHERE { ?project a kdsf:Drittmittelprojekt .
       			OPTIONAL {?laufzeit vivo:end ?ende .
        			?ende vivo:dateTime ?endjahr }
     		}
+
+#Alle laufenden Projekte SPARQL- NOT EXISTS / Ohne End-Datum
+
+SELECT DISTINCT ?label
+WHERE { ?project a kdsf:Drittmittelprojekt .
+  			?project rdfs:label ?label .
+  			?project vivo:dateTimeInterval ?laufzeit .
+ 		  	?laufzeit vivo:end ?ende .
+   			NOT EXISTS { ?ende vivo:dateTime ?endjahr }
+		}
