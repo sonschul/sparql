@@ -8,6 +8,17 @@ WHERE { ?project a kdsf:Drittmittelprojekt .
   			?start vivo:dateTime ?startjahr .
   			?laufzeit vivo:end ?ende .
   			?ende vivo:dateTime ?endjahr .
-  			#FILTER (str(?startjahr) >= "2016") 
-  			FILTER (str(?endjahr) <= "2016") 
+  			#FILTER (str(?startjahr) >= "2016")
+  			FILTER (str(?endjahr) <= "2016")
 		}
+#Alle Projekte, die Enddatum optonal haben
+
+    SELECT DISTINCT ?label ?startjahr ?endjahr
+    WHERE { ?project a kdsf:Drittmittelprojekt .
+      			?project rdfs:label ?label .
+      			?project vivo:dateTimeInterval ?laufzeit .
+     		  	?laufzeit vivo:start ?start .
+      			?start vivo:dateTime ?startjahr .
+      			OPTIONAL {?laufzeit vivo:end ?ende .
+       			?ende vivo:dateTime ?endjahr }
+    		}
