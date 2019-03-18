@@ -1,0 +1,36 @@
+# all properties and values
+
+SELECT ?property ?value
+WHERE {<https://fis.uos.de/vivouos/individual/KhSh415> ?property ?value}
+
+# all properties describing an individual (metadata)
+
+SELECT DISTINCT ?property
+WHERE {<https://fis.uos.de/vivouos/individual/KhSh415> ?property ?value}
+
+# all subClassOf person
+
+SELECT DISTINCT ?class
+WHERE {?class rdfs:subClassOf kdsf:Person}
+
+# UNION
+
+SELECT ?professor
+WHERE {
+  {?professor a kdsf:Stiftungsprofessoren.}
+UNION
+  {?professor a kdsf:Juniorprofessoren.}}
+
+
+# Bewilligungssummen nach Mittelgeber (Optional mit HAVING-Filter)
+
+  SELECT  ?mittelgeber (SUM(xsd:decimal(?summenclean)) AS ?mSumme)
+  WHERE {?project a kdsf:Drittmittelprojekt .
+              ?project kdsf:hatMittelgeber ?mittelgeber .
+              ?project kdsf:Bewilligungssumme ?bewillsumme .
+           BIND((REPLACE(?bewillsumme, " € ", "")) as ?summe) .
+   		BIND((REPLACE(?summe, " ", "")) as ?summen) .
+   		BIND((REPLACE(?summen, ",00", "")) as ?summenclean) .
+  		}
+  GROUP BY ?mittelgeber
+  HAVING (?mSumme > 0)
