@@ -34,3 +34,20 @@ UNION
   		}
   GROUP BY ?mittelgeber
   HAVING (?mSumme > 0)
+
+# Bewilligungssummen nach Jahr
+
+SELECT  ?startjahr (SUM(xsd:decimal(?summenclean)) AS ?mSumme)
+WHERE {?project a kdsf:Drittmittelprojekt .
+        ?project kdsf:hatMittelgeber ?mittelgeber .
+        ?project kdsf:Bewilligungssumme ?bewillsumme .
+ 			  ?project vivo:dateTimeInterval ?laufzeit .
+     		?laufzeit vivo:start ?start .
+      		?start vivo:dateTime ?startjahr .
+        BIND((REPLACE(?bewillsumme, " € ", "")) as ?summe) .
+ 		BIND((REPLACE(?summe, " ", "")) as ?summen) .
+ 		BIND((REPLACE(?summen, ",00", "")) as ?summenclean) .
+		}
+GROUP BY ?startjahr
+HAVING (?mSumme > 0)
+ORDER BY ?startjahr
