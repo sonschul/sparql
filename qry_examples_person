@@ -1,0 +1,5 @@
+# Liste der Personen mit NetID und Name 
+
+SELECT DISTINCT ?individual ?name
+WHERE {?individual a kdsf:Person .
+			?individual rdfs:label ?name}
