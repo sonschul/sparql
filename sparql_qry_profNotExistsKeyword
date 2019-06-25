@@ -1,0 +1,9 @@
+#Liste der Professoren ohne Schlagwörter (mit Fach und Denomination) 
+
+SELECT DISTINCT ?professor ?name ?fach ?denomination
+WHERE {?professor rdfs:label ?name .
+  			 ?professor uoscore:Denomination ?denomination .
+  		  	 ?professor kdsf:hatFach ?fachuri .
+  			?fachuri rdfs:label ?fach .
+    		?professor a kdsf:Professoren .
+NOT EXISTS {?professor vivo:freetextKeyword ?value} }
