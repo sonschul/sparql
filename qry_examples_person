@@ -3,3 +3,10 @@
 SELECT DISTINCT ?individual ?name
 WHERE {?individual a kdsf:Person .
 			?individual rdfs:label ?name}
+
+# Liste der Personen mit Klasse (mostSpecificType)
+
+SELECT DISTINCT ?individual ?name ?class
+WHERE {?individual a kdsf:Person .
+			?individual rdfs:label ?name .
+			?individual vitro:mostSpecificType ?class}
