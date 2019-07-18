@@ -10,3 +10,11 @@ SELECT DISTINCT ?individual ?name ?class
 WHERE {?individual a kdsf:Person .
 			?individual rdfs:label ?name .
 			?individual vitro:mostSpecificType ?class}
+			
+SELECT DISTINCT ?individual ?name ?classname
+WHERE {?individual a kdsf:Person .
+			?individual rdfs:label ?name .
+			?individual vitro:mostSpecificType ?class .
+			?class rdfs:label ?classname
+		 FILTER (lang(?classname) = 'de-DE')
+}
